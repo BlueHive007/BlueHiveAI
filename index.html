@@ -1086,10 +1086,6 @@
       <div class="hero-stat-num">5</div>
       <div class="hero-stat-label">Revenue Streams</div>
     </div>
-    <div>
-      <div class="hero-stat-num">$0</div>
-      <div class="hero-stat-label">Entry Point Available</div>
-    </div>
   </div>
 </section>
 
@@ -1258,9 +1254,6 @@
         <h4>Discovery & Entry</h4>
         <p>Low-friction entry point through our university partnership model. Start with zero risk and real exposure to the BlueHive framework.</p>
       </div>
-      <div class="tier-price">
-        <div class="tier-price-num">$100–$2K</div>
-        <div class="tier-price-note">per month</div>
       </div>
     </div>
 
@@ -1273,9 +1266,6 @@
         <h4>AI Readiness Assessment + Full Report</h4>
         <p>A complete organizational AI readiness assessment with a full diagnostic report and prioritized action plan tailored to your team.</p>
       </div>
-      <div class="tier-price">
-        <div class="tier-price-num">$5,000</div>
-        <div class="tier-price-note">flat engagement</div>
       </div>
     </div>
 
@@ -1288,9 +1278,6 @@
         <h4>Building Resilient Teams Coaching</h4>
         <p>A structured coaching program that builds change resilience into your team — assessed, embedded, and tracked for measurable improvement.</p>
       </div>
-      <div class="tier-price">
-        <div class="tier-price-num">$20,000</div>
-        <div class="tier-price-note">per program</div>
       </div>
     </div>
 
@@ -1303,9 +1290,6 @@
         <h4>AI Workflow Operations Consulting</h4>
         <p>Business outcome–led AI implementation. We design the workflows, train the teams, and manage the change that turns AI investment into AI value.</p>
       </div>
-      <div class="tier-price">
-        <div class="tier-price-num">$30K–$75K</div>
-        <div class="tier-price-note">per engagement</div>
       </div>
     </div>
 
@@ -1318,9 +1302,6 @@
         <h4>Fractional AI Operators</h4>
         <p>Deploy pre-vetted, BlueHive-certified AI operators directly into your organization at fractional cost — with full managed oversight.</p>
       </div>
-      <div class="tier-price">
-        <div class="tier-price-num">$12,000</div>
-        <div class="tier-price-note">per placement/mo</div>
       </div>
     </div>
   </div>
@@ -1372,8 +1353,11 @@
   <h2>Ready to Make AI <span>Actually Stick?</span></h2>
   <p class="cta-sub">Whether you're starting with an assessment or ready to transform your entire organization — let's talk.</p>
   <div class="cta-actions">
-    <a href="mailto:team@bluehiveteam.com" class="btn-glow">Start a Conversation →</a>
+    <a href="mailto:shan@bluehive-ai.com" class="btn-glow">Start a Conversation →</a>
     <a href="#services" class="btn-outline-dark">View Services</a>
+  </div>
+  <div style="margin-top:20px;text-align:center;">
+    <a href="mailto:shan@bluehive-ai.com" style="font-family:'DM Sans',sans-serif;font-size:15px;color:rgba(81,175,221,0.75);letter-spacing:0.04em;text-decoration:none;border-bottom:1px solid rgba(81,175,221,0.25);padding-bottom:2px;transition:color 0.2s,border-color 0.2s;" onmouseover="this.style.color='rgba(81,175,221,1)';this.style.borderColor='rgba(81,175,221,0.6)'" onmouseout="this.style.color='rgba(81,175,221,0.75)';this.style.borderColor='rgba(81,175,221,0.25)'">shan@bluehive-ai.com</a>
   </div>
 </section>
 
@@ -1402,7 +1386,7 @@
     </div>
     <div class="footer-col">
       <h5>Contact</h5>
-      <a href="mailto:team@bluehiveteam.com">team@bluehiveteam.com</a>
+      <a href="mailto:shan@bluehive-ai.com">shan@bluehive-ai.com</a>
       <a href="#contact">Get in Touch</a>
     </div>
   </div>
@@ -1508,63 +1492,135 @@ window.addEventListener('scroll', () => {
   var bee = document.getElementById('hive-bee');
   if (!bee) return;
 
-  // Move bee to fixed position on the page (viewport-relative)
   bee.style.position = 'fixed';
   bee.style.zIndex   = '999';
 
-  // Circular ellipse — 16 points around viewport, right-side biased
-  var totalPoints = 16;
-  var cx = 80;  // center x % of viewport
-  var cy = 50;  // center y %
-  var rx = 14;  // radius x %
-  var ry = 36;  // radius y %
-  var waypoints = [];
-  for (var i = 0; i < totalPoints; i++) {
-    var angle = (i / totalPoints) * 2 * Math.PI;
-    waypoints.push({
-      x: cx + rx * Math.cos(angle),
-      y: cy + ry * Math.sin(angle)
+  var beeSize    = 36;
+  var roamTimer  = null;
+
+  // Get the center of the nav bee SVG (the bee body part of the logo)
+  function getLogoPos() {
+    var svgEl = document.querySelector('.nav-bee');
+    if (svgEl) {
+      var rect = svgEl.getBoundingClientRect();
+      // viewBox="570 295 860 460" — bee body center ~(1000,530)
+      var fx = (1000 - 570) / 860;
+      var fy = (530 - 295) / 460;
+      return { x: rect.left + fx * rect.width, y: rect.top + fy * rect.height };
+    }
+    var logo = document.querySelector('.nav-logo');
+    var r = logo ? logo.getBoundingClientRect() : { left:24, top:24, width:48, height:48 };
+    return { x: r.left + r.width * 0.3, y: r.top + r.height * 0.5 };
+  }
+
+  // Random ellipse constrained to upper-left quadrant (5–22% x, 8–22% y)
+  function makeWaypoints() {
+    var pts = [], n = 14;
+    var cx = 5  + Math.random() * 17;
+    var cy = 8  + Math.random() * 14;
+    var rx = 3  + Math.random() * 5;
+    var ry = 3  + Math.random() * 6;
+    var offset = Math.random() * Math.PI * 2;
+    for (var i = 0; i < n; i++) {
+      var a = offset + (i / n) * 2 * Math.PI;
+      pts.push({ x: cx + rx * Math.cos(a), y: cy + ry * Math.sin(a) });
+    }
+    return pts;
+  }
+
+  function snapToLogo() {
+    var pos = getLogoPos();
+    bee.style.transition = 'none';
+    bee.style.opacity    = '0';
+    bee.style.transform  = 'scale(0.25) rotate(0deg)';
+    bee.style.left = (pos.x - beeSize / 2) + 'px';
+    bee.style.top  = (pos.y - beeSize / 2) + 'px';
+  }
+
+  function launchFromLogo(waypoints, onDone) {
+    snapToLogo();
+    setTimeout(function() {
+      var vw  = window.innerWidth  - 50;
+      var vh  = window.innerHeight - 50;
+      var wp0 = waypoints[0], wp1 = waypoints[1];
+      var dx  = (wp1.x - wp0.x) * vw;
+      var dy  = (wp1.y - wp0.y) * vh;
+      var ang = Math.atan2(dy, dx) * (180 / Math.PI) + 90;
+
+      bee.style.transition = [
+        'left 1.35s cubic-bezier(0.4,0,0.2,1)',
+        'top 1.35s cubic-bezier(0.4,0,0.2,1)',
+        'transform 1.35s ease',
+        'opacity 0.5s ease'
+      ].join(', ');
+
+      bee.style.opacity   = '0.41';
+      bee.style.transform = 'scale(1) rotate(' + Math.round(ang) + 'deg)';
+      bee.style.left      = Math.round(wp0.x / 100 * vw) + 'px';
+      bee.style.top       = Math.round(wp0.y / 100 * vh) + 'px';
+      setTimeout(onDone, 1400);
+    }, 30);
+  }
+
+  function startRoaming(waypoints, roamDuration, onDone) {
+    var idx = 1, stepMs = 780;
+    function step() {
+      var vw   = window.innerWidth  - 50;
+      var vh   = window.innerHeight - 50;
+      var wp   = waypoints[idx % waypoints.length];
+      var next = waypoints[(idx + 1) % waypoints.length];
+      var dx   = (next.x - wp.x) * vw;
+      var dy   = (next.y - wp.y) * vh;
+      var ang  = Math.atan2(dy, dx) * (180 / Math.PI) + 90;
+      bee.style.transition = [
+        'left ' + stepMs + 'ms cubic-bezier(0.45,0.05,0.55,0.95)',
+        'top '  + stepMs + 'ms cubic-bezier(0.45,0.05,0.55,0.95)',
+        'transform 450ms ease'
+      ].join(', ');
+      bee.style.left      = Math.round(wp.x / 100 * vw) + 'px';
+      bee.style.top       = Math.round(wp.y / 100 * vh) + 'px';
+      bee.style.transform = 'scale(1) rotate(' + Math.round(ang) + 'deg)';
+      idx++;
+    }
+    step();
+    roamTimer = setInterval(step, stepMs);
+    setTimeout(function() {
+      clearInterval(roamTimer);
+      roamTimer = null;
+      onDone();
+    }, roamDuration);
+  }
+
+  function returnToLogo(onDone) {
+    var target = getLogoPos();
+    bee.style.transition = [
+      'left 3.3s cubic-bezier(0.6,0,0.15,1)',
+      'top 3.3s cubic-bezier(0.6,0,0.15,1)',
+      'transform 3.3s cubic-bezier(0.6,0,0.15,1)',
+      'opacity 0.5s ease 2.8s'
+    ].join(', ');
+    bee.style.left      = (target.x - beeSize / 2) + 'px';
+    bee.style.top       = (target.y - beeSize / 2) + 'px';
+    bee.style.transform = 'scale(0) rotate(0deg)';
+    setTimeout(function() { bee.style.opacity = '0'; }, 2800);
+    setTimeout(onDone, 3600);
+  }
+
+  function runCycle() {
+    var waypoints = makeWaypoints();
+    var roamMs    = 1500 + Math.random() * 3000;
+    var pauseMs   = 3000 + Math.random() * 2000;
+    launchFromLogo(waypoints, function() {
+      startRoaming(waypoints, roamMs, function() {
+        returnToLogo(function() {
+          setTimeout(runCycle, pauseMs);
+        });
+      });
     });
   }
 
-  var current    = 0;
-  var lastScroll = 0;
-
-  function moveBee() {
-    var vw   = window.innerWidth  - 60;
-    var vh   = window.innerHeight - 60;
-    var idx  = current % waypoints.length;
-    var next = waypoints[(current + 1) % waypoints.length];
-    var wp   = waypoints[idx];
-
-    // Angle toward next waypoint
-    var dx    = (next.x - wp.x) * vw;
-    var dy    = (next.y - wp.y) * vh;
-    var angle = Math.atan2(dy, dx) * (180 / Math.PI) + 90;
-
-    bee.style.left      = Math.round(wp.x / 100 * vw) + 'px';
-    bee.style.top       = Math.round(wp.y / 100 * vh) + 'px';
-    bee.style.transform = 'rotate(' + Math.round(angle) + 'deg)';
-    bee.style.opacity   = '0.7';
-  }
-
-  // Move on scroll
-  window.addEventListener('scroll', function() {
-    var s = window.scrollY;
-    if (Math.abs(s - lastScroll) > 150) {
-      lastScroll = s;
-      current++;
-      moveBee();
-    }
-  });
-
-  // Auto-move every 3 seconds
-  setInterval(function() {
-    current++;
-    moveBee();
-  }, 3000);
-
-  moveBee();
+  // Kick off after short delay
+  setTimeout(runCycle, 1200);
 })();
 </script>
 
