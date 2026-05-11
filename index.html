@@ -1040,6 +1040,106 @@
   </ul>
 </nav>
 
+<!-- ── LOADING SCREEN ── -->
+<style>
+  #ai-loader {
+    position: fixed; inset: 0; z-index: 99999;
+    background: #070d1f;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 32px;
+    transition: opacity 0.7s ease, visibility 0.7s ease;
+  }
+  #ai-loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+  .loader-hive-wrap {
+    position: relative; width: 180px; height: 170px;
+    animation: loaderFloat 2s ease-in-out infinite;
+  }
+  @keyframes loaderFloat {
+    0%,100% { transform: translateY(0); }
+    50%      { transform: translateY(-10px); }
+  }
+  .loader-bee-wrap {
+    position: absolute; bottom: -8px; right: -4px;
+    width: 44px; height: auto;
+    filter: drop-shadow(0 0 6px rgba(34,153,218,0.6));
+  }
+  .loader-bee-wings {
+    position: absolute; top: 0; left: 0; width: 44px; height: auto;
+    animation: wingBeat 0.88s ease-in-out infinite;
+    transform-origin: center center;
+  }
+  .loader-wordmark {
+    font-family: 'Outfit', sans-serif;
+    font-size: 26px; font-weight: 700;
+    letter-spacing: 0.12em; color: #fff;
+  }
+  .loader-wordmark .lw-blue { color: #51AFDD; }
+  .loader-wordmark .lw-ai   { color: #2299DA; font-size: 18px; margin-left: 4px; opacity: 0.85; }
+  .loader-bar {
+    width: 140px; height: 2px;
+    background: rgba(34,153,218,0.12);
+    border-radius: 2px; overflow: hidden;
+  }
+  .loader-bar-fill {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, #2299DA, #51AFDD);
+    border-radius: 2px;
+    animation: loaderFill 1.5s cubic-bezier(0.4,0,0.2,1) forwards;
+  }
+  @keyframes loaderFill { 0%{width:0%} 60%{width:72%} 100%{width:100%} }
+</style>
+
+<div id="ai-loader">
+  <div class="loader-hive-wrap">
+    <!-- Honeycomb (exact copy from hero) -->
+    <svg viewBox="0 0 310 290" xmlns="http://www.w3.org/2000/svg" style="width:180px;height:auto;filter:drop-shadow(0 0 28px rgba(34,153,218,0.45));">
+      <defs>
+        <filter id="lhexGlow">
+          <feGaussianBlur stdDeviation="2.5" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <line x1="106.2" y1="122.5" x2="184.2" y2="167.5" stroke="rgba(34,153,218,0.3)" stroke-width="1" stroke-dasharray="4 3"/><line x1="184.2" y1="167.5" x2="125.8" y2="88.7" stroke="rgba(34,153,218,0.3)" stroke-width="1" stroke-dasharray="4 3"/><line x1="125.8" y1="88.7" x2="86.8" y2="156.3" stroke="rgba(34,153,218,0.3)" stroke-width="1" stroke-dasharray="4 3"/>
+      <polygon points="127.0,110.5 127.0,134.5 106.2,146.5 85.5,134.5 85.5,110.5 106.2,98.5" fill="rgba(34,153,218,0.18)" stroke="rgba(34,153,218,0.9)" stroke-width="1.5"/><polygon points="166.0,133.0 166.0,157.0 145.2,169.0 124.5,157.0 124.5,133.0 145.2,121.0" fill="rgba(34,153,218,0.10)" stroke="rgba(34,153,218,0.55)" stroke-width="1"/><polygon points="205.0,155.5 205.0,179.5 184.2,191.5 163.5,179.5 163.5,155.5 184.2,143.5" fill="rgba(34,153,218,0.18)" stroke="rgba(34,153,218,0.9)" stroke-width="1.5"/><polygon points="244.0,178.0 244.0,202.0 223.2,214.0 202.5,202.0 202.5,178.0 223.2,166.0" fill="rgba(34,153,218,0.05)" stroke="rgba(34,153,218,0.25)" stroke-width="1"/><polygon points="107.5,54.2 107.5,78.2 86.8,90.2 66.0,78.2 66.0,54.2 86.8,42.2" fill="rgba(34,153,218,0.10)" stroke="rgba(34,153,218,0.55)" stroke-width="1"/><polygon points="146.5,76.7 146.5,100.7 125.8,112.7 105.0,100.7 105.0,76.7 125.8,64.7" fill="rgba(34,153,218,0.18)" stroke="rgba(34,153,218,0.9)" stroke-width="1.5"/><polygon points="185.5,99.2 185.5,123.2 164.8,135.2 144.0,123.2 144.0,99.2 164.8,87.2" fill="rgba(34,153,218,0.05)" stroke="rgba(34,153,218,0.25)" stroke-width="1"/><polygon points="224.5,121.7 224.5,145.7 203.8,157.7 183.0,145.7 183.0,121.7 203.8,109.7" fill="rgba(34,153,218,0.10)" stroke="rgba(34,153,218,0.55)" stroke-width="1"/><polygon points="107.5,144.3 107.5,168.3 86.8,180.3 66.0,168.3 66.0,144.3 86.8,132.3" fill="rgba(34,153,218,0.18)" stroke="rgba(34,153,218,0.9)" stroke-width="1.5"/><polygon points="146.5,166.8 146.5,190.8 125.8,202.8 105.0,190.8 105.0,166.8 125.8,154.8" fill="rgba(34,153,218,0.05)" stroke="rgba(34,153,218,0.25)" stroke-width="1"/><polygon points="185.5,189.3 185.5,213.3 164.8,225.3 144.0,213.3 144.0,189.3 164.8,177.3" fill="rgba(34,153,218,0.10)" stroke="rgba(34,153,218,0.55)" stroke-width="1"/><polygon points="224.5,211.8 224.5,235.8 203.8,247.8 183.0,235.8 183.0,211.8 203.8,199.8" fill="rgba(34,153,218,0.18)" stroke="rgba(34,153,218,0.9)" stroke-width="1.5"/><polygon points="127.0,20.4 127.0,44.4 106.2,56.4 85.5,44.4 85.5,20.4 106.2,8.4" fill="rgba(34,153,218,0.05)" stroke="rgba(34,153,218,0.25)" stroke-width="1"/><polygon points="166.0,42.9 166.0,66.9 145.2,78.9 124.5,66.9 124.5,42.9 145.2,30.9" fill="rgba(34,153,218,0.10)" stroke="rgba(34,153,218,0.55)" stroke-width="1"/><polygon points="205.0,65.5 205.0,89.5 184.2,101.5 163.5,89.5 163.5,65.5 184.2,53.5" fill="rgba(34,153,218,0.18)" stroke="rgba(34,153,218,0.9)" stroke-width="1.5"/><polygon points="127.0,200.5 127.0,224.5 106.2,236.5 85.5,224.5 85.5,200.5 106.2,188.5" fill="rgba(34,153,218,0.05)" stroke="rgba(34,153,218,0.25)" stroke-width="1"/><polygon points="166.0,223.1 166.0,247.1 145.2,259.1 124.5,247.1 124.5,223.1 145.2,211.1" fill="rgba(34,153,218,0.10)" stroke="rgba(34,153,218,0.55)" stroke-width="1"/><polygon points="205.0,245.6 205.0,269.6 184.2,281.6 163.5,269.6 163.5,245.6 184.2,233.6" fill="rgba(34,153,218,0.18)" stroke="rgba(34,153,218,0.9)" stroke-width="1.5"/><polygon points="244.0,133.0 244.0,157.0 223.2,169.0 202.5,157.0 202.5,133.0 223.2,121.0" fill="rgba(34,153,218,0.10)" stroke="rgba(34,153,218,0.55)" stroke-width="1"/><polygon points="244.0,223.1 244.0,247.1 223.2,259.1 202.5,247.1 202.5,223.1 223.2,211.1" fill="rgba(34,153,218,0.05)" stroke="rgba(34,153,218,0.25)" stroke-width="1"/>
+      <circle cx="106.2" cy="122.5" r="3" fill="rgba(34,153,218,0.8)"/><circle cx="184.2" cy="257.6" r="3" fill="rgba(34,153,218,0.8)"/><circle cx="184.2" cy="167.5" r="3" fill="rgba(34,153,218,0.8)"/><circle cx="125.8" cy="88.7" r="3" fill="rgba(34,153,218,0.8)"/><circle cx="86.8" cy="156.3" r="3" fill="rgba(34,153,218,0.8)"/><circle cx="203.8" cy="223.8" r="3" fill="rgba(34,153,218,0.8)"/><circle cx="184.2" cy="77.5" r="3" fill="rgba(34,153,218,0.8)"/>
+    </svg>
+    <!-- Bee body (exact copy from hive-bee) -->
+    <div class="loader-bee-wrap">
+      <svg style="position:relative;width:44px;height:auto;" viewBox="570 295 860 460" xmlns="http://www.w3.org/2000/svg">
+        <path transform="translate(1076,441)" d="m0 0 12 6 13 8 7 2 1-1 11-1h118l11 4 8 7 5 7 2 6 1 10-2 11-5 9-8 7-9 4-9 2h-29l-17-2-21-6-11-5-20-8-9-3v29l-17 9-23 14-7 4-5-1-18-11-25-15v-58l21-13 18-11z" fill="#2873B3"/>
+        <path transform="translate(967,441)" d="m0 0 6 2 24 14 18 11 2 2v57l-14 8-24 14-10 5-10-5-21-13-16-9-1-28-8 1-41 16-18 4-13 2h-25l-16-4-8-6-5-6-4-8-1-3v-14l5-12 8-8 7-4 12-2h102l19 1 6 1 18-10z" fill="#51AFDD"/>
+        <path transform="translate(1022,338)" d="m0 0 8 4 22 14 15 8 5 6v53l-14 9-27 16-7 5-4-1-10-7-30-18-4-4v-57l20-12 23-14z" fill="#2299DA"/>
+        <path transform="translate(1127,542)" d="m0 0 7 1 18 11 22 13 3 2v57l-10 6-17 10-18 11-5-1-29-17-15-9v-57l17-10 23-14z" fill="#2771B2"/>
+        <path transform="translate(1021,541)" d="m0 0 5 2 22 13 20 12 1 1v58l-24 14-14 8-6 4-5-1-44-26v-57l14-8 18-11 11-7h2z" fill="#2771B2"/>
+        <path transform="translate(916,541)" d="m0 0 11 7 21 12 14 9 1 1v56l-45 27-6-1-16-10-20-12-6-4v-57l20-12 18-11z" fill="#2299DA"/>
+        <path transform="translate(967,640)" d="m0 0 6 1 13 8 17 10 11 7 1 10-17 12-19 13-9 6-4-2-16-10-20-13-4-5-1-4v-7l8-5 20-12z" fill="#2298DA"/>
+        <path transform="translate(1076,639)" d="m0 0 12 7 17 10 11 7 4 4-1 13-10 7-13 8-17 11-3 1-15-10-16-11-12-8-2-3v-8l9-6 15-9 18-11z" fill="#2771B2"/>
+        <path transform="translate(1021,688)" d="m0 0 5 2 13 9 11 7 13 8 2 1v14l-9 7-11 7-18 13-2 2-5-1-16-12-22-15-1-1v-14l11-6 11-8 15-10z" fill="#2772B2"/>
+      </svg>
+      <!-- Wings (animated) -->
+      <svg class="loader-bee-wings" viewBox="570 295 860 460" xmlns="http://www.w3.org/2000/svg">
+        <path transform="translate(1320,339)" d="m0 0h8l9 3 9 8 3 6 1 5v8l-4 10-8 7-7 3h-13l-8-4-8-9v-2h-66l-12 3-14 7-13 9-11 8-16 11h83l7-8 5-4 3-1h15l6 3 6 5 6 12v10l-4 9-7 7-8 3h-13l-8-4-7-8-2-3h-115l-9 5-10 7-6 5-5-1-6-5-5-4v-2l6-4 11-8 9-6 14-5 34-25 16-12 18-12 12-6 11-3 15-2h60l2-5 5-5 8-5z" fill="#143B7F"/>
+        <path transform="translate(716,339)" d="m0 0h9l8 4 8 7 4 5 65 1 15 3 15 6 18 12 19 14 18 13 15 10 19 10 17 12 5 5-11 7-2 2-5-1-21-15-3-1-115-1-6 8-6 5-8 3h-8l-9-3-7-6-4-10v-10l3-9 6-7 5-3 5-1h11l8 4 9 10 84 1 2 1-5-5-19-13-10-8-13-8-11-5-6-2-70-1-8 10-8 5-3 1h-11l-8-4-7-7-3-6-1-10 3-9 4-6 8-6z" fill="#239ADB"/>
+        <path transform="translate(1099,307)" d="m0 0h9l5 3 4 5 1 4-3 8-6 4-9 1h-6l-14 8-12 9-7 4-3-1-3-3-8-5 4-5 14-10 20-14 10-6z" fill="#2872B2"/>
+        <path transform="translate(938,307)" d="m0 0h7l12 6 15 10 20 14 8 6-3 3-12 7-4-2-14-10-14-8-10-2-7-1-5-6-2-7 3-6z" fill="#2399DA"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="loader-wordmark">
+    <span class="lw-blue">BLUE HIVE</span><span class="lw-ai">AI</span>
+  </div>
+  <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+</div>
+
+<script>
+  window.addEventListener('DOMContentLoaded', function() {
+    setTimeout(function() {
+      document.getElementById('ai-loader').classList.add('hidden');
+    }, 1800);
+  });
+</script>
+
 <!-- HERO -->
 <section class="hero" id="home">
   <div class="hero-bee">
