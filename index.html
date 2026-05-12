@@ -1691,7 +1691,7 @@
     <li><a href="#pillars">Pillars</a></li>
     <li><a href="#services">Services</a></li>
     <li><a href="#why">Why Us</a></li>
-    <li><a href="articles.html">Insights</a></li>
+    <li><a href="#insights">Insights</a></li>
     <li><a href="#contact" class="nav-cta">Get Started</a></li>
   </ul>
 </nav>
@@ -2125,7 +2125,7 @@
     <div style="font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:#51AFDD;margin-bottom:16px;">BlueHive Insights</div>
     <h2 style="font-family:'Outfit',sans-serif;font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:700;color:#fff;margin:0 0 16px;line-height:1.2;">Thinking on AI, Resilience<br>&amp; What Sticks</h2>
     <p style="font-size:1rem;color:rgba(255,255,255,0.6);margin:0 0 36px;line-height:1.7;">Practical perspectives on leading AI transformation — without losing the humans in the room.</p>
-    <a href="articles.html" style="display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#2299DA,#1565C0);color:#fff;padding:14px 36px;border-radius:6px;font-family:'Outfit',sans-serif;font-size:1rem;font-weight:600;letter-spacing:0.04em;text-decoration:none;transition:opacity 0.2s;box-shadow:0 4px 20px rgba(34,153,218,0.3);" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
+    <a href="#insights" style="display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#2299DA,#1565C0);color:#fff;padding:14px 36px;border-radius:6px;font-family:'Outfit',sans-serif;font-size:1rem;font-weight:600;letter-spacing:0.04em;text-decoration:none;transition:opacity 0.2s;box-shadow:0 4px 20px rgba(34,153,218,0.3);" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
       Read the Insights
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
     </a>
@@ -2152,8 +2152,8 @@
       <a href="#mission">About Us</a>
       <a href="#pillars">Our Pillars</a>
       <a href="#why">Why Blue Hive AI</a>
-      <a href="articles.html">Insights</a>
-      <a href="index.html">Blue Hive AI →</a>
+      <a href="#insights">Insights</a>
+      <a href="#home">Blue Hive AI →</a>
     </div>
     <div class="footer-col">
       <h5>Contact</h5>
@@ -2760,9 +2760,11 @@ renderArticles('all');
 })();
 </script>
 <script>
-(function() {
+document.addEventListener('DOMContentLoaded', function() {
   var mainPage     = document.getElementById('main-page');
   var articlesPage = document.getElementById('articles-page');
+
+  if (!mainPage || !articlesPage) return;
 
   function showPage(page) {
     if (page === 'articles') {
@@ -2770,38 +2772,51 @@ renderArticles('all');
       articlesPage.style.display = 'block';
       document.title = 'Insights — Blue Hive AI';
       window.scrollTo(0, 0);
+      // Mark Insights as active in nav
+      document.querySelectorAll('.nav-links a').forEach(function(a) {
+        a.classList.remove('active');
+        if (a.getAttribute('href') === '#insights') a.classList.add('active');
+      });
     } else {
       mainPage.style.display     = 'block';
       articlesPage.style.display = 'none';
       document.title = 'Blue Hive AI';
-      window.scrollTo(0, 0);
+      // Clear active on Insights
+      document.querySelectorAll('.nav-links a').forEach(function(a) {
+        if (a.getAttribute('href') === '#insights') a.classList.remove('active');
+      });
     }
   }
 
-  // Intercept clicks on articles.html and index.html hrefs
+  // Handle hash-based navigation
+  function handleHash() {
+    showPage(window.location.hash === '#insights' ? 'articles' : 'main');
+  }
+
+  // Listen for hash changes (covers all #insights links)
+  window.addEventListener('hashchange', handleHash);
+
+  // Intercept clicks — handle back-navigation from articles page
   document.addEventListener('click', function(e) {
     var a = e.target.closest('a');
     if (!a) return;
     var href = (a.getAttribute('href') || '').trim();
-    if (href === 'articles.html') {
-      e.preventDefault();
-      history.pushState({page:'articles'}, '', '#insights');
-      showPage('articles');
-    } else if (href === 'index.html') {
-      e.preventDefault();
-      history.pushState({page:'main'}, '', '#home');
-      showPage('main');
+    // Any main-site section link clicked from articles page → go back to main
+    if (articlesPage.style.display === 'block') {
+      if (href.startsWith('#') && href !== '#insights') {
+        e.preventDefault();
+        history.pushState({page:'main'}, '', href);
+        showPage('main');
+        // Then scroll to the section
+        var target = document.getElementById(href.replace('#',''));
+        if (target) setTimeout(function() { target.scrollIntoView({behavior:'smooth'}); }, 50);
+      }
     }
   });
 
-  // Back/forward browser buttons
-  window.addEventListener('popstate', function() {
-    showPage(window.location.hash === '#insights' ? 'articles' : 'main');
-  });
-
-  // Initial load
-  if (window.location.hash === '#insights') showPage('articles');
-})();
+  // Check on load
+  handleHash();
+});
 </script>
 </body>
 </html>
