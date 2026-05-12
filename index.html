@@ -944,9 +944,664 @@
   .nav-logo div svg polygon:nth-child(2n) { animation-delay: 0.6s; }
   .nav-logo div svg polygon:nth-child(3n) { animation-delay: 1.2s; }
 
+
+  /* ─── ARTICLES PAGE ─── */
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --blue-light: #51AFDD;
+    --blue-mid: #2299DA;
+    --blue-deep: #2873B3;
+    --blue-dark: #143B7F;
+    --navy: #0e2a5c;
+    --black: #070d1f;
+    --white: #ffffff;
+    --off-white: #f5f8fd;
+    --text-dark: #0d1b3e;
+    --text-mid: #2d4a7a;
+    --text-muted: #6b85a8;
+    --border: rgba(34,153,218,0.15);
+    --glow: rgba(34,153,218,0.4);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    color: white;
+    background: var(--black);
+    line-height: 1.65;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  h1, h2, h3, h4, h5 { font-family: 'Outfit', sans-serif; }
+
+  /* Hex grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='64'%3E%3Cpolygon points='28,2 54,16 54,48 28,62 2,48 2,16' fill='none' stroke='rgba(34,153,218,0.23)' stroke-width='1'/%3E%3C/svg%3E");
+    background-size: 56px 64px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5%;
+    height: 72px;
+    background: rgba(7,13,31,0.9);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(34,153,218,0.12);
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+
+  .nav-brand {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 17px;
+    letter-spacing: 0.12em;
+  }
+  .nav-brand .blue { color: var(--blue-mid); }
+  .nav-brand .hive { color: white; }
+  .nav-brand .ai {
+    color: var(--blue-light);
+    font-size: 13px;
+    background: rgba(34,153,218,0.15);
+    border: 1px solid rgba(34,153,218,0.3);
+    padding: 2px 7px;
+    border-radius: 20px;
+    margin-left: 4px;
+    letter-spacing: 0.08em;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 17px;
+    color: rgba(255,255,255,0.6);
+    text-decoration: none;
+    letter-spacing: 0.03em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--blue-light); }
+  .nav-links a.active { color: var(--blue-light); }
+
+  .nav-cta {
+    background: var(--blue-mid) !important;
+    color: white !important;
+    padding: 9px 22px;
+    border-radius: 4px;
+    font-weight: 500 !important;
+    letter-spacing: 0.04em;
+    transition: background 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--blue-deep) !important; }
+
+  /* ── PAGE HERO ── */
+  .page-hero {
+    padding: 140px 5% 72px;
+    position: relative;
+    z-index: 1;
+    border-bottom: 1px solid rgba(34,153,218,0.12);
+    background: linear-gradient(180deg, rgba(20,59,127,0.3) 0%, rgba(14,42,92,0.1) 100%);
+  }
+
+  .page-hero::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 300px;
+    background: radial-gradient(ellipse, rgba(34,153,218,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .page-hero-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 48px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 2;
+  }
+
+  .section-label {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--blue-light);
+    margin-bottom: 14px;
+  }
+
+  .page-hero h1 {
+    font-size: clamp(38px, 5vw, 64px);
+    font-weight: 800;
+    color: white;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    margin-bottom: 16px;
+  }
+
+  .page-hero h1 .accent {
+    background: linear-gradient(135deg, var(--blue-mid), var(--blue-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .page-hero p {
+    font-size: 19px;
+    color: rgba(255,255,255,0.6);
+    max-width: 520px;
+    line-height: 1.75;
+  }
+
+
+
+  /* ── FILTERS ── */
+  .filters-bar {
+    position: relative;
+    z-index: 1;
+    padding: 24px 5%;
+    border-bottom: 1px solid rgba(34,153,218,0.08);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    max-width: 100%;
+  }
+
+  .filters-bar-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 7px 16px;
+    border-radius: 3px;
+    border: 1px solid rgba(34,153,218,0.2);
+    background: transparent;
+    color: rgba(255,255,255,0.45);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    background: rgba(34,153,218,0.12);
+    border-color: rgba(34,153,218,0.5);
+    color: var(--blue-light);
+  }
+
+  /* ── ARTICLES GRID ── */
+  .articles-section {
+    position: relative;
+    z-index: 1;
+    padding: 64px 5%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .articles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  /* Featured (first article) spans full width */
+  .article-card.featured {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .article-card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(34,153,218,0.08);
+    padding: 40px 36px;
+    cursor: pointer;
+    transition: background 0.25s, border-color 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .article-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--blue-mid), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .article-card:hover {
+    background: rgba(34,153,218,0.04);
+    border-color: rgba(34,153,218,0.2);
+  }
+  .article-card:hover::before { opacity: 1; }
+
+  .article-card.featured .card-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: 48px;
+  }
+
+  .article-card.featured .card-meta-right {
+    border-left: 1px solid rgba(34,153,218,0.1);
+    padding-left: 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .card-tag {
+    font-family: 'Outfit', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--blue-mid);
+    margin-bottom: 14px;
+  }
+
+  .card-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 21px;
+    font-weight: 700;
+    color: white;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    margin-bottom: 12px;
+  }
+
+  .article-card.featured .card-title {
+    font-size: 30px;
+    margin-bottom: 18px;
+  }
+
+  .card-excerpt {
+    font-size: 16px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.7;
+    margin-bottom: 24px;
+  }
+
+  .article-card.featured .card-excerpt {
+    font-size: 18px;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid rgba(34,153,218,0.1);
+    padding-top: 16px;
+    margin-top: auto;
+  }
+
+  .card-author {
+    font-size: 14px;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.03em;
+  }
+
+  .card-author strong {
+    color: rgba(255,255,255,0.7);
+    font-weight: 500;
+  }
+
+  .card-date {
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.06em;
+  }
+
+  .card-read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--blue-mid);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .card-read-more:hover { color: var(--blue-light); }
+
+  .featured-stat {
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(34,153,218,0.1);
+  }
+  .featured-stat:last-child { border-bottom: none; }
+  .featured-stat-num {
+    font-family: 'Outfit', sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--blue-light);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .featured-stat-label {
+    font-size: 14px;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.05em;
+  }
+
+  /* Empty state */
+  .articles-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 80px 0;
+    color: rgba(255,255,255,0.3);
+  }
+  .articles-empty h3 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: rgba(255,255,255,0.5);
+  }
+  .articles-empty p { font-size: 16px; }
+
+
+
+  /* ── ARTICLE READER VIEW ── */
+  .reader-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--black);
+    z-index: 400;
+    overflow-y: auto;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .reader-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .reader-nav {
+    position: sticky;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5%;
+    height: 64px;
+    background: rgba(7,13,31,0.95);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(34,153,218,0.1);
+    z-index: 10;
+  }
+
+  .reader-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  .reader-back:hover { color: var(--blue-light); }
+
+  .reader-brand {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.12em;
+    color: rgba(255,255,255,0.5);
+  }
+  .reader-brand .blue { color: var(--blue-mid); }
+
+  .reader-content {
+    max-width: 740px;
+    margin: 0 auto;
+    padding: 72px 5% 120px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .reader-tag {
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--blue-mid);
+    margin-bottom: 20px;
+  }
+
+  .reader-title {
+    font-size: clamp(28px, 4vw, 46px);
+    font-weight: 800;
+    color: white;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+  }
+
+  .reader-meta {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 20px 0;
+    border-top: 1px solid rgba(34,153,218,0.1);
+    border-bottom: 1px solid rgba(34,153,218,0.1);
+    margin-bottom: 48px;
+  }
+
+  .reader-author {
+    font-size: 15px;
+    color: rgba(255,255,255,0.55);
+  }
+  .reader-author strong { color: rgba(255,255,255,0.8); font-weight: 500; }
+
+  .reader-date {
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.06em;
+  }
+
+  .reader-body {
+    font-size: 18px;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.85;
+  }
+
+  .reader-body h2 {
+    font-size: 26px;
+    font-weight: 700;
+    color: white;
+    margin: 48px 0 16px;
+    letter-spacing: -0.01em;
+  }
+
+  .reader-body h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: white;
+    margin: 36px 0 12px;
+  }
+
+  .reader-body p { margin-bottom: 24px; }
+
+  .reader-body strong { color: var(--blue-light); font-weight: 500; }
+
+  .reader-body blockquote {
+    border-left: 3px solid var(--blue-mid);
+    padding: 16px 24px;
+    margin: 32px 0;
+    background: rgba(34,153,218,0.06);
+    border-radius: 0 4px 4px 0;
+    font-style: italic;
+    color: rgba(255,255,255,0.6);
+  }
+
+
+  /* ── FOOTER ── */
+  footer {
+    background: rgba(0,0,0,0.5);
+    border-top: 1px solid rgba(34,153,218,0.1);
+    padding: 64px 5% 40px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 48px;
+  }
+
+  .footer-brand-name {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 0.12em;
+    margin-bottom: 12px;
+  }
+  .footer-brand-name .blue { color: var(--blue-mid); }
+  .footer-brand-name .white { color: white; }
+  .footer-brand-name .ai {
+    color: var(--blue-light);
+    font-size: 12px;
+    background: rgba(34,153,218,0.15);
+    border: 1px solid rgba(34,153,218,0.3);
+    padding: 2px 7px;
+    border-radius: 20px;
+    margin-left: 4px;
+  }
+
+  .footer-tagline {
+    font-size: 16px;
+    color: rgba(255,255,255,0.38);
+    line-height: 1.7;
+    max-width: 240px;
+  }
+
+  .footer-col h5 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.53);
+    margin-bottom: 16px;
+  }
+
+  .footer-col a {
+    display: block;
+    font-size: 16px;
+    color: rgba(255,255,255,0.44);
+    text-decoration: none;
+    margin-bottom: 10px;
+    transition: color 0.2s;
+  }
+  .footer-col a:hover { color: var(--blue-light); }
+
+  .footer-bottom {
+    max-width: 1200px;
+    margin: 0 auto;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding-top: 28px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+    color: rgba(255,255,255,0.28);
+  }
+
+  /* ── ANIMATIONS ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+  }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  @media (max-width: 900px) {
+    .articles-grid { grid-template-columns: 1fr; }
+    .article-card.featured { grid-template-columns: 1fr; }
+    .article-card.featured .card-meta-right {
+      border-left: none;
+      border-top: 1px solid rgba(34,153,218,0.1);
+      padding-left: 0;
+      padding-top: 24px;
+    }
+    .footer-inner { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 600px) {
+    .nav-links { display: none; }
+    .footer-inner { grid-template-columns: 1fr; }
+    .footer-bottom { flex-direction: column; gap: 8px; }
+  }
+
 </style>
 </head>
 <body>
+<div id="main-page">
 
 <!-- NAV -->
 <nav>
@@ -1036,6 +1691,7 @@
     <li><a href="#pillars">Pillars</a></li>
     <li><a href="#services">Services</a></li>
     <li><a href="#why">Why Us</a></li>
+    <li><a href="articles.html">Insights</a></li>
     <li><a href="#contact" class="nav-cta">Get Started</a></li>
   </ul>
 </nav>
@@ -1462,6 +2118,20 @@
 </section>
 
 <!-- FOOTER -->
+
+<!-- INSIGHTS CTA BAND -->
+<div style="background:linear-gradient(135deg,rgba(13,42,92,0.95),rgba(7,13,31,0.98));border-top:1px solid rgba(34,153,218,0.15);border-bottom:1px solid rgba(34,153,218,0.15);padding:64px 5%;text-align:center;">
+  <div style="max-width:640px;margin:0 auto;">
+    <div style="font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:#51AFDD;margin-bottom:16px;">BlueHive Insights</div>
+    <h2 style="font-family:'Outfit',sans-serif;font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:700;color:#fff;margin:0 0 16px;line-height:1.2;">Thinking on AI, Resilience<br>&amp; What Sticks</h2>
+    <p style="font-size:1rem;color:rgba(255,255,255,0.6);margin:0 0 36px;line-height:1.7;">Practical perspectives on leading AI transformation — without losing the humans in the room.</p>
+    <a href="articles.html" style="display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#2299DA,#1565C0);color:#fff;padding:14px 36px;border-radius:6px;font-family:'Outfit',sans-serif;font-size:1rem;font-weight:600;letter-spacing:0.04em;text-decoration:none;transition:opacity 0.2s;box-shadow:0 4px 20px rgba(34,153,218,0.3);" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
+      Read the Insights
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </a>
+  </div>
+</div>
+
 <footer>
   <div class="footer-inner">
     <div>
@@ -1482,6 +2152,7 @@
       <a href="#mission">About Us</a>
       <a href="#pillars">Our Pillars</a>
       <a href="#why">Why Blue Hive AI</a>
+      <a href="articles.html">Insights</a>
       <a href="index.html">Blue Hive AI →</a>
     </div>
     <div class="footer-col">
@@ -1494,6 +2165,7 @@
     <span>© 2026 Blue Hive AI. All Rights Reserved.</span>
     <span>Engineering collective intelligence.</span>
   </div>
+  <div style="text-align:center;padding:10px 0 2px;"><a href="admin.html" style="font-size:11px;color:rgba(255,255,255,0.15);text-decoration:none;letter-spacing:0.06em;" onmouseover="this.style.color='rgba(34,153,218,0.45)'" onmouseout="this.style.color='rgba(255,255,255,0.15)'">Admin</a></div>
 </footer>
 
 <script>
@@ -1724,5 +2396,404 @@ window.addEventListener('scroll', () => {
 })();
 </script>
 
+
+<!-- ARTICLES PAGE -->
+<div id="articles-page" style="display:none;">
+<!-- NAV -->
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <div class="fade-in">
+      <div class="section-label">BlueHive Insights</div>
+      <h1>Thinking on <span class="accent">AI, Resilience</span><br>& What Sticks</h1>
+      <p>Perspectives from the BlueHive team on AI adoption, organizational resilience, and the human side of transformation.</p>
+  </div>
+</section>
+
+<!-- FILTER BAR -->
+<div class="filters-bar">
+  <div class="filters-bar-inner">
+    <button class="filter-btn active" data-tag="all">All</button>
+    <button class="filter-btn" data-tag="AI Adoption">AI Adoption</button>
+    <button class="filter-btn" data-tag="Resilience">Resilience</button>
+    <button class="filter-btn" data-tag="Leadership">Leadership</button>
+    <button class="filter-btn" data-tag="Workforce">Workforce</button>
+    <button class="filter-btn" data-tag="Strategy">Strategy</button>
+  </div>
+</div>
+
+<!-- ARTICLES -->
+<div class="articles-section">
+  <div class="articles-grid" id="articles-grid">
+    <!-- Populated by JS -->
+  </div>
+</div>
+
+<!-- FOOTER -->
+<!-- ARTICLE READER -->
+<div class="reader-overlay" id="reader-overlay">
+  <div class="reader-nav">
+    <button class="reader-back" onclick="closeReader()">
+      ← Back to Insights
+    </button>
+    <div class="reader-brand">
+      <span class="blue">BLUE</span> HIVE<span style="color:var(--blue-light);font-size:11px;background:rgba(34,153,218,0.15);border:1px solid rgba(34,153,218,0.3);padding:2px 7px;border-radius:20px;margin-left:4px;">AI</span>
+    </div>
+  </div>
+  <div class="reader-content" id="reader-content">
+    <!-- populated by JS -->
+  </div>
+</div>
+</div>
+<script>
+// ARTICLES JS
+
+// ── DATA STORE ──
+// Articles are stored in localStorage so they persist across sessions in the browser.
+// In production this would be a backend database / CMS fed by the email pipeline.
+
+const STORAGE_KEY = 'bluehive_articles';
+
+const SEED_ARTICLES = [
+  {
+    id: 'seed-1',
+    title: 'Why Resilience — Not Technology — Is the Real Predictor of AI ROI',
+    tag: 'Resilience',
+    author: 'BlueHive Team',
+    date: 'May 2026',
+    excerpt: 'Organizations that score highest on our four resilience pillars before rollout consistently achieve greater AI adoption rates. The data is unambiguous: it\'s never the tool.',
+    body: `## The Question Leaders Keep Getting Wrong
+
+Every week, another executive asks us which AI tool they should deploy first. It's the wrong question — and the answer almost never matters.
+
+After 40+ years of combined experience at the intersection of enterprise technology and human performance, we've watched the same failure mode repeat itself: **organizations invest heavily in AI infrastructure and almost nothing in the organizational capacity to absorb it.**
+
+## What the Data Actually Shows
+
+Our 4-pillar resilience framework scores teams across Cognitive Clarity, Relational Trust, Operational Flex, and Identity Anchoring. Teams that score 7 or above across all four pillars before a major AI implementation begins achieve measurably better outcomes — faster adoption, lower resistance, and higher ROI retention at the 6-month mark.
+
+Teams that begin implementation below that threshold? The tool barely matters. Adoption stalls regardless of how good the technology is.
+
+## The Uncomfortable Truth
+
+> "You cannot install your way out of a people problem."
+
+This is the uncomfortable truth most AI vendors don't want to say out loud. Their business model depends on tool sales. Ours depends on transformation that sticks.
+
+## What This Means for Your Next Rollout
+
+Before you buy another platform license, ask yourself:
+
+**Does your team have the cognitive bandwidth to absorb new workflows?** Decision fatigue and cognitive overload kill adoption before it starts.
+
+**Is there enough relational trust on your team to surface problems early?** If people don't feel safe raising issues, you won't hear about failures until they're expensive.
+
+**Can your processes flex without breaking?** Rigid workflows are the enemy of adaptive technology.
+
+**Does your team have a shared purpose that survives disruption?** Identity anchoring is what keeps teams aligned when everything is changing at once.
+
+Score those four pillars honestly. Build them up where they're weak. Then deploy the AI.
+
+That's the sequence that works.`,
+    featured: true
+  },
+  {
+    id: 'seed-2',
+    title: 'Cognitive Clarity: The Overlooked Ingredient in Every AI Rollout',
+    tag: 'AI Adoption',
+    author: 'BlueHive Team',
+    date: 'Apr 2026',
+    excerpt: 'Decision-making quality degrades under ambiguity. Here\'s how to measure it — and what to do when your team is running on empty.',
+    body: `## What We Mean by Cognitive Clarity
+
+Cognitive Clarity is one of the four pillars in the BlueHive Resilience Framework. It describes a team's ability to process ambiguity and make decisions without paralysis — even under pressure.
+
+It sounds simple. In practice, it's one of the hardest capabilities to build and the first to collapse during organizational change.
+
+## Why AI Makes It Worse Before It Gets Better
+
+AI transformation introduces ambiguity on every front simultaneously: roles are unclear, workflows are changing, success metrics are shifting, and the tools themselves are evolving. For teams already operating at cognitive capacity, this is overwhelming.
+
+> "Cognitive overload doesn't announce itself. It shows up as slow decisions, avoided conversations, and missed signals."
+
+## How We Measure It
+
+We score Cognitive Clarity on a 1–10 scale using a combination of survey responses, stakeholder interviews, and behavioral observation. Specifically, we look at:
+
+- Decision-making speed during periods of uncertainty
+- Meeting quality when the agenda is ambiguous
+- Clarity of role ownership during organizational change
+
+## What a Score Below 5 Looks Like
+
+Teams scoring below 5 on Cognitive Clarity typically exhibit: decisions that require more than one meeting, problems that get raised too late, and a culture of waiting for certainty before acting.
+
+## The Interventions That Work
+
+**Decision architecture workshops** give teams a shared framework for making calls under uncertainty. **Cognitive load audits** identify where mental bandwidth is being burned unnecessarily. **Structured standup rituals** reduce the cost of daily coordination.
+
+None of these are complicated. All of them require consistency over time — which is itself a form of organizational resilience.`,
+    featured: false
+  },
+  {
+    id: 'seed-3',
+    title: 'What Fractional AI Operators Actually Do',
+    tag: 'Workforce',
+    author: 'BlueHive Team',
+    date: 'Apr 2026',
+    excerpt: 'Not a consultant. Not a contractor. A certified AI operator embedded in your team with full BlueHive oversight and a clear mandate.',
+    body: `## The Gap in the Market
+
+Most organizations that invest in AI don't have anyone whose full-time job is to make that investment work. The implementation gets handed to IT, or a vendor, or a project manager with fifteen other priorities.
+
+The result is predictable: partial adoption, inconsistent usage, and AI tools that gradually fall out of rotation because nobody owns the outcomes.
+
+## What a Fractional AI Operator Is
+
+A BlueHive Fractional AI Operator is a pre-vetted, certified professional placed directly inside your organization on a part-time or fractional basis. They are not a consultant who visits quarterly. They are embedded in your team with a clear mandate: make AI adoption stick.
+
+Their responsibilities typically include workflow optimization, tool administration, team training, and outcome tracking.
+
+## Full Managed Oversight
+
+Every Fractional AI Operator placed by BlueHive operates under our managed oversight model. That means weekly reporting, performance tracking, and active engagement from the BlueHive team throughout the placement — not just at onboarding.
+
+This isn't a staffing play. It's an outcomes play.`,
+    featured: false
+  },
+  {
+    id: 'seed-4',
+    title: 'The 7+ Rule: When Orgs Are Actually Ready for AI',
+    tag: 'Strategy',
+    author: 'BlueHive Team',
+    date: 'Mar 2026',
+    excerpt: 'We set a clear threshold before recommending major AI implementation: all four resilience pillars at 7 or above. Here\'s why, and what to do if you\'re not there yet.',
+    body: `## Where the Number Comes From
+
+The 7+ threshold isn't arbitrary. It emerged from observing the delta between teams that successfully absorbed AI implementations and those that didn't. Teams scoring 7 or above across all four resilience pillars — Cognitive Clarity, Relational Trust, Operational Flex, and Identity Anchoring — showed dramatically better adoption rates, lower resistance, and stronger retention of gains at the 6-month mark.
+
+Below 7, the pattern reversed. Adoption stalled. Teams reverted. ROI degraded.
+
+## What to Do If You're Below the Threshold
+
+Getting below-threshold scores is not a reason to delay indefinitely — it's a reason to sequence correctly. Build the foundation first, then deploy.
+
+The BlueHive Resilience Assessment identifies exactly where your gaps are and which interventions will close them fastest. For most teams, meaningful improvement across all four pillars is achievable within 8–12 weeks.
+
+## The Cost of Ignoring the Threshold
+
+The cost of deploying AI before teams are ready isn't just a failed rollout. It's a team that now associates AI with disruption, confusion, and failed promises — making the next attempt even harder.
+
+The 7+ rule exists to protect that future attempt.`,
+    featured: false
+  }
+];
+
+function loadArticles() {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) return JSON.parse(stored);
+  } catch(e) {}
+  // First visit — seed with default articles
+  saveArticles(SEED_ARTICLES);
+  return SEED_ARTICLES;
+}
+
+function saveArticles(articles) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(articles)); } catch(e) {}
+}
+
+function addArticle(article) {
+  const articles = loadArticles();
+  articles.unshift(article);
+  saveArticles(articles);
+  return articles;
+}
+
+// ── RENDER ──
+let currentTag = 'all';
+
+function renderArticles(tag) {
+  currentTag = tag;
+  const articles = loadArticles();
+  const filtered = tag === 'all' ? articles : articles.filter(a => a.tag === tag);
+  const grid = document.getElementById('articles-grid');
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div class="articles-empty"><h3>No articles yet in this category.</h3><p>Be the first to publish — send an email to get started.</p></div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map((article, i) => {
+    const isFeatured = i === 0 && tag === 'all';
+    if (isFeatured) {
+      return `
+        <div class="article-card featured fade-in" onclick="openReader('${article.id}')">
+          <div class="card-content">
+            <div class="card-tag">${article.tag}</div>
+            <div class="card-title">${article.title}</div>
+            <div class="card-excerpt">${article.excerpt}</div>
+            <div class="card-footer">
+              <div class="card-author">By <strong>${article.author}</strong></div>
+              <div class="card-date">${article.date}</div>
+            </div>
+          </div>
+          <div class="card-meta-right">
+            <div class="featured-stat">
+              <div class="featured-stat-num">4</div>
+              <div class="featured-stat-label">Resilience Pillars</div>
+            </div>
+            <div class="featured-stat">
+              <div class="featured-stat-num">7+</div>
+              <div class="featured-stat-label">Score Threshold for AI Readiness</div>
+            </div>
+            <div class="featured-stat">
+              <div class="featured-stat-num">8wk</div>
+              <div class="featured-stat-label">Avg. Time to Threshold</div>
+            </div>
+          </div>
+        </div>`;
+    }
+    return `
+      <div class="article-card fade-in" onclick="openReader('${article.id}')">
+        <div class="card-tag">${article.tag}</div>
+        <div class="card-title">${article.title}</div>
+        <div class="card-excerpt">${article.excerpt}</div>
+        <div class="card-footer">
+          <div class="card-author">By <strong>${article.author}</strong></div>
+          <div class="card-date">${article.date}</div>
+        </div>
+      </div>`;
+  }).join('');
+
+  // Trigger fade-in
+  requestAnimationFrame(() => {
+    document.querySelectorAll('.article-card.fade-in').forEach((el, i) => {
+      setTimeout(() => el.classList.add('visible'), i * 60);
+    });
+  });
+}
+
+// ── READER ──
+function openReader(id) {
+  const articles = loadArticles();
+  const article = articles.find(a => a.id === id);
+  if (!article) return;
+
+  const bodyHtml = parseMarkdown(article.body);
+  document.getElementById('reader-content').innerHTML = `
+    <div class="reader-tag">${article.tag}</div>
+    <h1 class="reader-title">${article.title}</h1>
+    <div class="reader-meta">
+      <div class="reader-author">By <strong>${article.author}</strong></div>
+      <div class="reader-date">${article.date}</div>
+    </div>
+    <div class="reader-body">${bodyHtml}</div>
+  `;
+
+  const overlay = document.getElementById('reader-overlay');
+  overlay.classList.add('open');
+  overlay.scrollTop = 0;
+  document.body.style.overflow = 'hidden';
+}
+
+function closeReader() {
+  document.getElementById('reader-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Simple Markdown parser (headings, bold, blockquote, paragraphs)
+function parseMarkdown(text) {
+  const lines = text.split('\n');
+  let html = '';
+  let i = 0;
+  while (i < lines.length) {
+    const line = lines[i].trim();
+    if (!line) { i++; continue; }
+    if (line.startsWith('## ')) {
+      html += `<h2>${inlineMd(line.slice(3))}</h2>`;
+    } else if (line.startsWith('### ')) {
+      html += `<h3>${inlineMd(line.slice(4))}</h3>`;
+    } else if (line.startsWith('> ')) {
+      html += `<blockquote>${inlineMd(line.slice(2))}</blockquote>`;
+    } else {
+      html += `<p>${inlineMd(line)}</p>`;
+    }
+    i++;
+  }
+  return html;
+}
+
+function inlineMd(text) {
+  return text
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    .replace(/`(.+?)`/g, '<code style="font-family:monospace;color:var(--blue-light);background:rgba(34,153,218,0.1);padding:1px 6px;border-radius:2px;">$1</code>');
+}
+
+// ── FILTERS ──
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderArticles(btn.dataset.tag);
+  });
+});
+
+
+// ── SCROLL FADE-IN ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// ── INIT ──
+renderArticles('all');
+
+</script>
+<script>
+(function() {
+  var mainPage     = document.getElementById('main-page');
+  var articlesPage = document.getElementById('articles-page');
+
+  function showPage(page) {
+    if (page === 'articles') {
+      mainPage.style.display     = 'none';
+      articlesPage.style.display = 'block';
+      document.title = 'Insights — Blue Hive AI';
+      window.scrollTo(0, 0);
+    } else {
+      mainPage.style.display     = 'block';
+      articlesPage.style.display = 'none';
+      document.title = 'Blue Hive AI';
+      window.scrollTo(0, 0);
+    }
+  }
+
+  // Intercept clicks on articles.html and index.html hrefs
+  document.addEventListener('click', function(e) {
+    var a = e.target.closest('a');
+    if (!a) return;
+    var href = (a.getAttribute('href') || '').trim();
+    if (href === 'articles.html') {
+      e.preventDefault();
+      history.pushState({page:'articles'}, '', '#insights');
+      showPage('articles');
+    } else if (href === 'index.html') {
+      e.preventDefault();
+      history.pushState({page:'main'}, '', '#home');
+      showPage('main');
+    }
+  });
+
+  // Back/forward browser buttons
+  window.addEventListener('popstate', function() {
+    showPage(window.location.hash === '#insights' ? 'articles' : 'main');
+  });
+
+  // Initial load
+  if (window.location.hash === '#insights') showPage('articles');
+})();
+</script>
 </body>
 </html>
